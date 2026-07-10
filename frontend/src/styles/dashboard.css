@@ -1,0 +1,68 @@
+/* =============================================================================
+   File:      frontend/src/styles/dashboard.css
+   Purpose:   Dashboard page — stats grid, section headers, empty state.
+   Modified:  2026-04-22
+   ============================================================================= */
+
+/* ---- Stats Grid ---- */
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.stat-card {
+  text-align: center;
+}
+
+.stat-card__value {
+  margin: 0 0 4px;
+  font-size: var(--font-size-xl);
+}
+
+.stat-card__label {
+  margin: 0;
+  color: var(--text-muted);
+}
+
+/* ---- Dashboard Section Header ---- */
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.section-header__title {
+  margin: 0;
+  font-size: var(--font-size-lg);
+  color: var(--text-primary);
+}
+
+.section-header__actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* ---- Dashboard Empty State ---- */
+
+.dashboard-empty {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.dashboard-empty__title {
+  margin: 0 0 12px;
+  font-size: var(--font-size-xl);
+  color: var(--text-primary);
+}
+
+.dashboard-empty__text {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: var(--font-size-base);
+  line-height: 1.6;
+}

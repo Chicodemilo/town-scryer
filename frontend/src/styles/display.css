@@ -1,0 +1,262 @@
+/* ==============================================================================
+   File:      frontend/src/styles/display.css
+   Purpose:   Styles for the fullscreen Display page. Covers viewport layout,
+              crossfade image transitions, and idle-state logo animation.
+   Callers:   Display.jsx (via main.jsx import)
+   Modified:  2026-06-01
+   ============================================================================== */
+
+.display-root {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: #0a0a0a;
+  cursor: none;
+}
+
+/* ---- Scene image layers ---- */
+.display-scene {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 1s ease-in-out;
+}
+
+.display-scene--visible {
+  opacity: 1;
+  z-index: 1;
+}
+
+.display-scene--hidden {
+  opacity: 0;
+  z-index: 0;
+}
+
+/* ---- Title card (shown before any scene has been generated) ---- */
+.display-titlecard {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(ellipse at center, #1a1530 0%, #0a0612 70%, #000 100%);
+  z-index: 2;
+  padding: 4vw;
+  overflow: hidden;
+}
+
+/* AI-generated movie-poster backdrop behind the text. */
+.display-titlecard__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+/* Dark gradient over the backdrop so text stays readable across any image. */
+.display-titlecard__scrim {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(0,0,0,0.65) 0%,
+      rgba(0,0,0,0.30) 30%,
+      rgba(0,0,0,0.30) 70%,
+      rgba(0,0,0,0.75) 100%
+    );
+  z-index: 1;
+}
+
+.display-titlecard__inner {
+  position: relative;
+  z-index: 2;
+}
+
+/* Small, offset pulsing overlay — NOT part of the AI image. */
+.display-titlecard__pulse {
+  position: absolute;
+  left: 24px;
+  bottom: 18px;
+  z-index: 3;
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-style: italic;
+  font-size: clamp(0.7rem, 0.9vw, 1.0rem);
+  color: rgba(232, 227, 211, 0.55);
+  letter-spacing: 0.04em;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+  animation: titlecard-pulse 2.5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* Mid-scene Daub status overlay — same vibe as the title-card pulse but
+   sits over real scene images. Small, italic, lower-left, subtle. */
+.display-daub-status {
+  position: absolute;
+  left: 24px;
+  bottom: 18px;
+  z-index: 4;
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-style: italic;
+  font-size: clamp(0.7rem, 0.9vw, 1.0rem);
+  color: rgba(255, 255, 255, 0.65);
+  letter-spacing: 0.04em;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.85);
+  padding: 6px 12px;
+  background: linear-gradient(to right, rgba(0,0,0,0.45), rgba(0,0,0,0));
+  border-radius: 4px;
+  pointer-events: none;
+  animation: titlecard-pulse 2.5s ease-in-out infinite;
+}
+
+@keyframes titlecard-pulse {
+  0%, 100% { opacity: 0.45; }
+  50% { opacity: 0.95; }
+}
+
+.display-titlecard__inner {
+  max-width: 1200px;
+  text-align: center;
+  color: #e8e3d3;
+}
+
+.display-titlecard__eyebrow {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-size: clamp(0.9rem, 1.2vw, 1.4rem);
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  color: #8a7a55;
+  margin-bottom: 1.5vh;
+}
+
+.display-titlecard__name {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-size: clamp(2.5rem, 7vw, 6.5rem);
+  font-weight: 600;
+  line-height: 1.05;
+  margin: 0 0 3vh;
+  color: #f4ecd0;
+  text-shadow: 0 4px 24px rgba(0,0,0,0.6);
+}
+
+.display-titlecard__tags {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 5vh;
+}
+
+.display-titlecard__tag {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-size: clamp(0.9rem, 1.4vw, 1.5rem);
+  font-style: italic;
+  color: #c8b993;
+  padding: 6px 18px;
+  border: 1px solid rgba(200, 185, 147, 0.35);
+  border-radius: 2px;
+  background: rgba(0,0,0,0.25);
+}
+
+.display-titlecard__tag--rating {
+  font-style: normal;
+  letter-spacing: 0.15em;
+  font-weight: 600;
+}
+
+.display-titlecard__party {
+  margin-top: 2vh;
+}
+
+.display-titlecard__party-heading {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-size: clamp(0.9rem, 1.2vw, 1.4rem);
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: #8a7a55;
+  margin-bottom: 1.5vh;
+}
+
+.display-titlecard__party-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-size: clamp(1rem, 1.5vw, 1.7rem);
+  color: #e8e3d3;
+}
+
+.display-titlecard__char-name {
+  font-weight: 600;
+  color: #f4ecd0;
+}
+
+.display-titlecard__char-desc {
+  color: #a89a73;
+  font-style: italic;
+}
+
+
+/* ---- Caption overlay (comic-book panel line under image) ---- */
+.display-caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 24px 48px 32px;
+  background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.55) 60%, rgba(0,0,0,0) 100%);
+  color: #fff;
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-style: italic;
+  font-size: clamp(1.4rem, 2.4vw, 2.4rem);
+  line-height: 1.3;
+  text-align: center;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* ---- Idle state (no scene) ---- */
+.display-idle {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+.display-idle__title {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-size: clamp(2rem, 5vw, 4.5rem);
+  color: #e8e8e8;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  animation: display-idle-pulse 4s ease-in-out infinite;
+  user-select: none;
+}
+
+.display-idle__subtitle {
+  font-size: clamp(0.8rem, 1.5vw, 1.2rem);
+  color: #555;
+  margin-top: 12px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  user-select: none;
+}
+
+@keyframes display-idle-pulse {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}

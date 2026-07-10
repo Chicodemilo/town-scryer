@@ -1,0 +1,826 @@
+/* =============================================================================
+   File:      frontend/src/styles/session.css
+   Purpose:   Session page — DM dashboard for managing game sessions, audio
+              capture, and scene feed.
+   Modified:  2026-06-01
+   ============================================================================= */
+
+/* ---- Page Layout ---- */
+
+.session-page {
+  /* Layout (max-width, padding) is owned by .content-container + PageContent. */
+}
+
+.session-page h2 {
+  margin: 0 0 20px;
+  font-size: var(--font-size-xl);
+  color: var(--text-primary);
+}
+
+/* ---- Setup Form ---- */
+
+.session-setup {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-medium);
+  border-radius: 8px;
+  padding: 28px 24px;
+  box-shadow: var(--shadow-card);
+}
+
+.session-setup h2 {
+  margin: 0 0 24px;
+}
+
+.session-setup__fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  margin-bottom: 28px;
+}
+
+.session-setup__field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.session-setup__field--primary {
+  margin-bottom: 4px;
+}
+
+.session-setup__field--primary label {
+  font-size: var(--font-size-base);
+  color: var(--text-primary);
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.session-setup__divider {
+  border: none;
+  border-top: 1px solid var(--border-medium);
+  margin: 0 0 24px;
+}
+
+.session-setup__toggle {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 0 0 20px;
+  cursor: pointer;
+  color: var(--text-primary);
+  font-size: var(--font-size-base);
+}
+
+.session-setup__toggle input[type="checkbox"] {
+  margin-top: 4px;
+  cursor: pointer;
+}
+
+.session-setup__field label {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.session-setup__field select {
+  padding: 10px 12px;
+  border: 1px solid var(--border-input);
+  border-radius: 6px;
+  background: var(--bg-input);
+  color: var(--text-primary);
+  font-size: var(--font-size-sm);
+  font-family: var(--font-primary);
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+}
+
+.session-setup__field select:focus {
+  outline: none;
+  border-color: var(--brand-primary);
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+.session-setup__hint {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  line-height: 1.3;
+  margin-top: -2px;
+}
+
+.session-setup__actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.session-setup__start-btn {
+  flex: 1;
+  padding: 14px 24px;
+  border: none;
+  border-radius: 6px;
+  background: var(--brand-primary);
+  color: #fff;
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  cursor: pointer;
+  transition: filter 0.15s ease, transform 0.1s ease;
+}
+
+.session-setup__start-btn:hover {
+  filter: brightness(1.15);
+}
+
+.session-setup__start-btn:active {
+  transform: scale(0.99);
+}
+
+.session-setup__start-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  filter: none;
+}
+
+.session-setup__save-btn {
+  padding: 14px 24px;
+  border: 1px solid var(--border-input);
+  border-radius: 6px;
+  background: var(--bg-surface-alt);
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.session-setup__save-btn:hover {
+  border-color: var(--brand-primary);
+  color: var(--brand-primary);
+}
+
+.session-setup__save-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ---- Active Session Controls ---- */
+
+.session-controls {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-medium);
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: var(--shadow-card);
+  margin-bottom: 20px;
+}
+
+.session-controls__top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.session-controls__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 14px;
+  border-radius: 20px;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.session-controls__badge--active {
+  background: rgba(34, 197, 94, 0.15);
+  color: var(--brand-success);
+}
+
+.session-controls__badge--paused {
+  background: rgba(245, 158, 11, 0.15);
+  color: var(--brand-warning);
+}
+
+.session-controls__badge-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+  animation: session-badge-pulse 2s ease-in-out infinite;
+}
+
+@keyframes session-badge-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.session-controls__badge--paused .session-controls__badge-dot {
+  animation: none;
+}
+
+.session-controls__buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.session-controls__buttons .btn {
+  font-size: var(--font-size-sm);
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: none;
+  font-weight: 500;
+  transition: filter 0.15s ease;
+}
+
+.session-controls__buttons .btn:hover {
+  filter: brightness(1.15);
+}
+
+.session-controls__toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--text-primary);
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: 1px solid var(--border-input);
+  background: var(--bg-surface-alt);
+  cursor: pointer;
+}
+
+.session-controls__toggle input[type="checkbox"] {
+  cursor: pointer;
+  accent-color: var(--brand-primary);
+}
+
+/* ---- Auto-audit banner (Daub is doubling down) ---- */
+.session-banner--audit {
+  background: linear-gradient(90deg, rgba(167, 139, 250, 0.15), rgba(96, 165, 250, 0.10));
+  border: 1px solid rgba(167, 139, 250, 0.45);
+  color: var(--text-primary);
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin: 16px 0;
+}
+
+.session-banner--audit .session-banner__icon {
+  color: #a78bfa;
+  font-size: 18px;
+}
+
+/* ---- Change-Image bar (big DM-initiated "fresh take" button) ---- */
+.change-image-bar {
+  display: flex;
+  gap: 12px;
+  align-items: stretch;
+  margin: 24px 0;
+}
+
+.change-image-bar__input {
+  flex: 1;
+  padding: 0 16px;
+  border: 1px solid var(--border-input);
+  border-radius: 8px;
+  background: var(--bg-surface-alt);
+  color: var(--text-primary);
+  font-size: var(--font-size-base);
+  font-family: inherit;
+}
+
+.change-image-bar__input:focus {
+  outline: none;
+  border-color: var(--brand-primary);
+}
+
+.change-image-bar__btn {
+  padding: 14px 28px;
+  border: none;
+  border-radius: 8px;
+  background: var(--brand-primary);
+  color: var(--text-on-brand, #fff);
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+  transition: filter 0.15s ease, background 0.15s ease;
+}
+
+.change-image-bar__btn:hover:not(:disabled) {
+  filter: brightness(1.1);
+}
+
+.change-image-bar__btn:disabled {
+  background: var(--bg-surface-alt);
+  color: var(--text-muted);
+  cursor: not-allowed;
+}
+
+.btn--pause {
+  background: var(--brand-warning);
+  color: #fff;
+}
+
+.btn--resume {
+  background: var(--brand-success);
+  color: #fff;
+}
+
+.btn--end {
+  background: var(--brand-danger);
+  color: #fff;
+}
+
+.btn--display {
+  background: var(--brand-purple);
+  color: #fff;
+}
+
+/* ---- Stats Row ---- */
+
+.session-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+}
+
+.session-stat {
+  background: var(--bg-surface-alt);
+  border: 1px solid var(--border-light);
+  border-radius: 6px;
+  padding: 14px 16px;
+  text-align: center;
+}
+
+.session-stat__value {
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 2px;
+  font-variant-numeric: tabular-nums;
+}
+
+.session-stat__label {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0;
+}
+
+/* ---- Audio Capture Section ---- */
+
+.session-audio {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-medium);
+  border-radius: 8px;
+  padding: 20px 24px;
+  box-shadow: var(--shadow-card);
+  margin-bottom: 20px;
+}
+
+.session-audio h3 {
+  margin: 0 0 12px;
+  font-size: var(--font-size-base);
+  color: var(--text-secondary);
+}
+
+/* ---- Scene Feed ---- */
+
+.session-scenes {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-medium);
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: var(--shadow-card);
+}
+
+.session-scenes h3 {
+  margin: 0 0 16px;
+  font-size: var(--font-size-lg);
+  color: var(--text-primary);
+}
+
+.session-scenes__empty {
+  text-align: center;
+  padding: 32px 16px;
+  color: var(--text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.session-scenes__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 720px) {
+  .session-scenes__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .session-scenes__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.scene-card {
+  background: var(--bg-surface-alt);
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.scene-card:hover {
+  box-shadow: var(--shadow-elevated);
+  transform: translateY(-2px);
+}
+
+.scene-card__image-wrap {
+  position: relative;
+}
+
+.scene-card__image {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  display: block;
+  background: var(--bg-hover);
+}
+
+/* ---- Regen Button (on latest scene) ---- */
+
+.scene-card__regen-btn {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(0, 0, 0, 0.5);
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease, color 0.15s ease, opacity 0.15s ease;
+  opacity: 0;
+}
+
+.scene-card:hover .scene-card__regen-btn {
+  opacity: 1;
+}
+
+/* Thumbs-up button — top-left of each scene card, opposite the delete. */
+.scene-card__thumbs-btn {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(0, 0, 0, 0.55);
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease, color 0.15s ease, opacity 0.15s ease;
+  opacity: 0;
+}
+
+.scene-card:hover .scene-card__thumbs-btn {
+  opacity: 1;
+}
+
+.scene-card__thumbs-btn:hover:not(:disabled) {
+  background: rgba(74, 222, 128, 0.85);
+  border-color: rgba(74, 222, 128, 0.85);
+  color: #fff;
+}
+
+.scene-card__thumbs-btn--active {
+  opacity: 1 !important;
+  background: rgba(74, 222, 128, 0.85);
+  border-color: rgba(74, 222, 128, 0.85);
+  color: #fff;
+  cursor: default;
+}
+
+/* Delete button — top-right, mirrors regen-btn styling */
+.scene-card__delete-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(0, 0, 0, 0.55);
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease, color 0.15s ease, opacity 0.15s ease;
+  opacity: 0;
+}
+
+.scene-card:hover .scene-card__delete-btn {
+  opacity: 1;
+}
+
+.scene-card__delete-btn:hover {
+  background: var(--brand-danger, #ef4444);
+  border-color: var(--brand-danger, #ef4444);
+  color: #fff;
+}
+
+.scene-card__delete-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.scene-card__regen-btn:hover {
+  background: rgba(0, 0, 0, 0.75);
+  color: #fff;
+}
+
+.scene-card__regen-btn:disabled {
+  opacity: 0.3 !important;
+  cursor: not-allowed;
+}
+
+/* ---- Regen Overlay / Spinner ---- */
+
+.scene-card__regen-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px 8px 0 0;
+}
+
+.scene-card__regen-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid rgba(255, 255, 255, 0.25);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: regen-spin 0.7s linear infinite;
+}
+
+@keyframes regen-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ---- Regen Inline Panel ---- */
+
+.scene-card__regen-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border-light);
+}
+
+.scene-card__regen-input {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid var(--border-input);
+  border-radius: 4px;
+  background: var(--bg-input);
+  color: var(--text-primary);
+  font-size: var(--font-size-xs);
+  font-family: var(--font-primary);
+  box-sizing: border-box;
+}
+
+.scene-card__regen-input:focus {
+  outline: none;
+  border-color: var(--brand-primary);
+}
+
+.scene-card__regen-submit {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 4px;
+  background: var(--brand-primary);
+  color: #fff;
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  cursor: pointer;
+  transition: filter 0.15s ease;
+}
+
+.scene-card__regen-submit:hover {
+  filter: brightness(1.15);
+}
+
+.scene-card__regen-submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.scene-card__regen-count {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+}
+
+.scene-card__regen-error {
+  font-size: var(--font-size-xs);
+  color: var(--brand-danger);
+}
+
+.scene-card__body {
+  padding: 12px;
+}
+
+.scene-card__description {
+  margin: 0 0 6px;
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.scene-card__time {
+  margin: 0;
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+}
+
+/* ---- Confirmation Overlay ---- */
+
+.session-confirm-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--bg-overlay);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+}
+
+.session-confirm-dialog {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-medium);
+  border-radius: 10px;
+  padding: 28px 24px;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: var(--shadow-modal);
+  text-align: center;
+}
+
+.session-confirm-dialog h3 {
+  margin: 0 0 8px;
+  font-size: var(--font-size-lg);
+  color: var(--text-primary);
+}
+
+.session-confirm-dialog p {
+  margin: 0 0 20px;
+  color: var(--text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.session-confirm-dialog__actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.session-confirm-dialog__actions .btn {
+  padding: 10px 24px;
+  border: none;
+  border-radius: 6px;
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition: filter 0.15s ease;
+}
+
+.session-confirm-dialog__actions .btn:hover {
+  filter: brightness(1.15);
+}
+
+.btn--cancel {
+  background: var(--bg-badge-neutral);
+  color: var(--text-badge-neutral);
+}
+
+/* ---- Error Banner ---- */
+
+.session-error {
+  background: var(--bg-error);
+  border: 1px solid var(--brand-danger);
+  border-radius: 6px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  color: var(--text-error);
+  font-size: var(--font-size-sm);
+}
+
+/* ---- Rate-Limit Banners ---- */
+
+.session-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 18px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  font-size: var(--font-size-sm);
+}
+
+.session-banner--warning {
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px solid var(--brand-warning);
+  color: var(--brand-warning);
+}
+
+.session-banner__content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+}
+
+.session-banner__icon {
+  font-size: var(--font-size-lg);
+  flex-shrink: 0;
+}
+
+.session-banner__text {
+  margin: 0;
+  line-height: 1.45;
+}
+
+.session-banner .btn--small {
+  flex-shrink: 0;
+}
+
+/* ---- Progress Bar inside Stats ---- */
+
+.session-stat__bar-wrap {
+  width: 100%;
+  height: 4px;
+  background: var(--border-light);
+  border-radius: 2px;
+  margin: 6px 0 4px;
+  overflow: hidden;
+}
+
+.session-stat__bar {
+  height: 100%;
+  border-radius: 2px;
+  background: var(--brand-primary);
+  transition: width 0.6s ease;
+}
+
+.session-stat__bar--danger {
+  background: var(--brand-danger);
+}
+
+/* ---- Cooldown Stat ---- */
+
+.session-stat--cooldown {
+  border-color: rgba(245, 158, 11, 0.3);
+  background: rgba(245, 158, 11, 0.08);
+}
+
+.session-stat__value--cooldown {
+  color: var(--brand-warning);
+  font-variant-numeric: tabular-nums;
+}
+

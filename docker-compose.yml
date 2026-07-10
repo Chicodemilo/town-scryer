@@ -1,0 +1,105 @@
+services:
+  db:
+    build: ./mysql
+    container_name: town-scryer-db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "${DB_PORT:-3316}:3306"
+    volumes:
+      - town_scryer_mysql_data:/var/lib/mysql
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+  api:
+    build: ./api
+    container_name: town-scryer-api
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - DATABASE_URL=mysql+pymysql://${MYSQL_USER}:${MYSQL_PASSWORD}@db:3306/${MYSQL_DATABASE}
+      - SECRET_KEY=${SECRET_KEY}
+      - ADMIN_USERNAME=${ADMIN_USERNAME:-admin}
+      - ADMIN_EMAIL=${ADMIN_EMAIL:-admin@example.com}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD:-change_me_admin_password}
+      - APP_NAME=${APP_NAME:-Town Scryer}
+      - FRONTEND_URL=${FRONTEND_URL:-http://localhost:3151}
+      - SMTP_HOST=${SMTP_HOST:-}
+      - SMTP_PORT=${SMTP_PORT:-587}
+      - SMTP_USER=${SMTP_USER:-}
+      - SMTP_PASSWORD=${SMTP_PASSWORD:-}
+      - SMTP_FROM_EMAIL=${SMTP_FROM_EMAIL:-}
+      - RATE_LIMIT_DISABLED=${RATE_LIMIT_DISABLED:-false}
+      # AI / image gen (transcription is self-hosted Whisper — no key needed)
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - IMAGE_GEN_API_KEY=${IMAGE_GEN_API_KEY:-}
+      - IMAGE_GEN_PROVIDER=${IMAGE_GEN_PROVIDER:-fal}
+    volumes:
+      - ./logs:/app/logs
+      - town_scryer_uploads_data:/app/uploads
+    networks:
+      - app-network
+
+  frontend:
+    container_name: town-scryer-frontend
+    build:
+      context: ./frontend
+      args:
+        - VITE_APP_NAME=${APP_NAME:-Town Scryer}
+    depends_on:
+      - api
+    ports:
+      - "${FRONTEND_PORT:-3151}:80"
+    networks:
+      - app-network
+
+  nginx:
+    image: nginx:alpine
+    container_name: town-scryer-nginx
+    depends_on:
+      - frontend
+    ports:
+      - "${BACKEND_PORT:-5151}:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/healthz"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: town-scryer-phpmyadmin
+    ports:
+      - "${PHPMYADMIN_PORT:-8080}:80"
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+volumes:
+  town_scryer_mysql_data:
+  town_scryer_uploads_data:
+
+networks:
+  app-network:
+    driver: bridge

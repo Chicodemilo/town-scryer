@@ -1,0 +1,205 @@
+/* =============================================================================
+   File:      frontend/src/styles/corrections.css
+   Purpose:   Styles for the CorrectionPanel component — collapsible panel
+              with tag-style chips for DM scene corrections.
+   Modified:  2026-06-01
+   ============================================================================= */
+
+/* ---- Panel Container ---- */
+
+.correction-panel {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-medium);
+  border-radius: 8px;
+  box-shadow: var(--shadow-card);
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+
+/* ---- Collapsible Header ---- */
+
+.correction-panel__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 12px 20px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-family: var(--font-primary);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  transition: color 0.15s ease;
+}
+
+.correction-panel__header:hover {
+  color: var(--text-primary);
+}
+
+.correction-panel__title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.correction-panel__badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 10px;
+  background: var(--brand-primary);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.correction-panel__chevron {
+  font-size: 10px;
+  transition: transform 0.2s ease;
+  color: var(--text-muted);
+}
+
+.correction-panel__chevron--open {
+  transform: rotate(180deg);
+}
+
+/* ---- Body (expanded) ---- */
+
+.correction-panel__body {
+  padding: 0 20px 16px;
+}
+
+/* ---- Input Row ---- */
+
+.correction-panel__input-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.correction-panel__input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid var(--border-input);
+  border-radius: 6px;
+  background: var(--bg-input);
+  color: var(--text-primary);
+  font-size: var(--font-size-sm);
+  font-family: var(--font-primary);
+  transition: border-color 0.15s ease;
+}
+
+.correction-panel__input::placeholder {
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.correction-panel__input:focus {
+  outline: none;
+  border-color: var(--brand-primary);
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+.correction-panel__add-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  background: var(--brand-primary);
+  color: #fff;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: filter 0.15s ease;
+}
+
+.correction-panel__add-btn:hover:not(:disabled) {
+  filter: brightness(1.15);
+}
+
+.correction-panel__add-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ---- Chips / Tags ---- */
+
+.correction-panel__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.correction-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 14px;
+  background: var(--bg-surface-alt, rgba(255, 255, 255, 0.06));
+  border: 1px solid var(--border-light);
+  font-size: var(--font-size-xs);
+  color: var(--text-primary);
+  line-height: 1.3;
+  max-width: 100%;
+}
+
+.correction-chip__text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 260px;
+}
+
+.correction-chip__remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.correction-chip__remove:hover {
+  background: var(--brand-danger);
+  color: #fff;
+}
+
+/* ---- Clear All Link ---- */
+
+.correction-panel__clear-link {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--text-muted);
+  font-size: var(--font-size-xs);
+  font-family: var(--font-primary);
+  cursor: pointer;
+  text-decoration: underline;
+  transition: color 0.15s ease;
+}
+
+.correction-panel__clear-link:hover {
+  color: var(--brand-danger);
+}

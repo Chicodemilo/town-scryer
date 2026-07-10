@@ -1,0 +1,10 @@
+# Docker Compose override for fresh deployment mode  
+# This file is used for default fresh deployments
+# It mounts both the database volume AND init scripts for fresh data
+
+services:
+  db:
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./mysql/init:/docker-entrypoint-initdb.d
+      # Init scripts will run and populate fresh database with schema + test data

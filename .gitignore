@@ -1,0 +1,24 @@
+.env
+node_modules/
+__pycache__/
+*.pyc
+.venv/
+venv/
+dist/
+.DS_Store
+*.log
+backups/*.tar.gz
+backups/db/*.sql.gz
+.expo/
+uploads/
+*.db
+
+# Docker volumes
+mysql/data/
+logs/
+
+# AI tooling state (per-machine, not source)
+.agents/
+.claude/
+.windsurf/
+skills-lock.json

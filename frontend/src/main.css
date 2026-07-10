@@ -1,0 +1,326 @@
+/* =============================================================================
+   File:      frontend/src/main.css
+   Purpose:   Design system — CSS custom properties and global resets.
+              Neutral blue/grey palette, system sans-serif font,
+              tiered shadow system, full light and dark mode tokens.
+   Callers:   main.jsx (imported globally)
+   Modified:  2026-04-22
+   ============================================================================= */
+
+/* ─── Design Tokens (Light Mode) ─── */
+
+:root {
+  /* Typography */
+  --font-primary:          system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-size-base:        16px;
+  --font-size-sm:          14px;
+  --font-size-xs:          12px;
+  --font-size-lg:          20px;
+  --font-size-xl:          28px;
+  --font-size-xxl:         36px;
+  --line-height:           1.6;
+
+  /* Backgrounds */
+  --bg-page:               #f5f6f8;
+  --bg-page-public:        #f0f2f5;
+  --bg-surface:            #ffffff;
+  --bg-surface-alt:        #f8f9fa;
+  --bg-input:              #ffffff;
+  --bg-hover:              #f0f4f8;
+  --bg-highlight:          #e8f0fe;
+  --bg-overlay:            rgba(0, 0, 0, 0.5);
+
+  /* Icon defaults */
+  --icon-bg:               #3b4a5c;
+  --icon-fg:               #ffffff;
+
+  /* Text */
+  --text-primary:          #1a2332;
+  --text-secondary:        #4a5568;
+  --text-muted:            #718096;
+  --text-faint:            #a0aec0;
+  --text-on-brand:         #ffffff;
+  --text-table-header:     #6c757d;
+
+  /* Links */
+  --link-color:            #3b82f6;
+  --link-hover:            #2563eb;
+
+  /* Borders */
+  --border-primary:        #dee2e6;
+  --border-medium:         #e2e8f0;
+  --border-light:          #edf2f7;
+  --border-input:          #cbd5e0;
+  --border-input-light:    #e2e8f0;
+  --border-separator:      #cbd5e0;
+
+  /* Brand / Action */
+  --brand-primary:         #3b82f6;
+  --brand-success:         #22c55e;
+  --brand-danger:          #ef4444;
+  --brand-warning:         #f59e0b;
+  --brand-purple:          #8b5cf6;
+
+  /* Semantic Surfaces */
+  --bg-error:              #fef2f2;
+  --text-error:            #991b1b;
+  --bg-error-alt:          #fee2e2;
+  --bg-danger-subtle:      #fef2f2;
+  --bg-badge-neutral:      #e9ecef;
+  --text-badge-neutral:    #495057;
+
+  /* Role Badges */
+  --bg-badge-owner:        #dcfce7;
+  --text-badge-owner:      #166534;
+  --bg-badge-admin:        #dbeafe;
+  --bg-badge-member:       #f1f5f9;
+  --bg-badge-role:         #e2e8f0;
+  --text-badge-role:       #475569;
+
+  /* Messages */
+  --bg-msg-received:       #f1f5f9;
+  --bg-msg-sent:           #3b82f6;
+
+  /* Shadows — tiered system */
+  --shadow-card:           0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-elevated:       0 4px 16px rgba(0, 0, 0, 0.12);
+  --shadow-main:           0 4px 24px rgba(0, 0, 0, 0.16);
+  --shadow-banner:         0 3px 16px rgba(0, 0, 0, 0.14);
+  --shadow-internal:       0 2px 10px rgba(0, 0, 0, 0.10);
+  --shadow-modal:          0 8px 36px rgba(0, 0, 0, 0.20);
+  --shadow-icon:           0 1px 4px rgba(0, 0, 0, 0.25);
+
+  --help-border:           #cbd5e0;
+
+  /* Table surfaces */
+  --bg-table:              #f8f9fa;
+  --bg-table-header:       #edf2f7;
+  --bg-table-row-alt:      #f1f5f9;
+  --bg-table-hover:        #e2e8f0;
+
+  /* Expanded rows */
+  --bg-expand:             #edf2f7;
+  --bg-expand-alt:         #e2e8f0;
+}
+
+/* ─── Global Resets ─── */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* ─── Theme Crossfade ─── */
+body, .app-root, .app-header, .content-container, .content-card,
+.content-area, .modal, .modal-overlay, .navbar, .page-header,
+.message-thread, .message-bubble, .message-bubble--sent, .message-bubble--received,
+.activity-ledger, .activity-ledger__row,
+.btn, .btn--primary, .btn--secondary, .btn--danger,
+.badge, .toggle, input, select, textarea {
+  transition: background-color 300ms ease, color 300ms ease, border-color 300ms ease;
+}
+
+html {
+  font-size: var(--font-size-base);
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-primary);
+  line-height: var(--line-height);
+  color: var(--text-primary);
+  background-color: var(--bg-page);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-primary);
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.3;
+  letter-spacing: normal;
+}
+
+h1 { font-size: var(--font-size-xxl); }
+h2 { font-size: var(--font-size-xl); }
+h3 { font-size: var(--font-size-lg); }
+
+p {
+  margin: 0 0 1rem;
+}
+
+/* ─── Links ─── */
+
+a {
+  color: var(--link-color);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+a:hover {
+  color: var(--link-hover);
+}
+
+/* ─── Form Elements ─── */
+
+input, select, textarea {
+  font-family: var(--font-primary);
+  font-size: var(--font-size-base);
+  color: var(--text-primary);
+  background-color: var(--bg-input);
+  border: 1px solid var(--border-input);
+  border-radius: 4px;
+  padding: 10px 12px;
+  transition: border-color 0.15s ease;
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--brand-primary);
+}
+
+input::placeholder, textarea::placeholder {
+  color: var(--text-faint);
+}
+
+/* ─── Buttons (base) ─── */
+
+button {
+  font-family: var(--font-primary);
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ─── Separators ─── */
+
+hr {
+  border: none;
+  border-top: 1px solid var(--border-separator);
+  margin: 1.5rem 0;
+}
+
+/* ─── Dark Mode ─── */
+
+[data-theme="dark"] {
+  /* Backgrounds */
+  --bg-page:               #0f1117;
+  --bg-page-public:        #0f1117;
+  --bg-surface:            #1a1d27;
+  --bg-surface-alt:        #22252f;
+  --bg-input:              #22252f;
+  --bg-hover:              #2a2d3a;
+  --bg-highlight:          #1e2a3a;
+  --bg-overlay:            rgba(0, 0, 0, 0.7);
+
+  /* Icons */
+  --icon-bg:               #94a3b8;
+  --icon-fg:               #0f1117;
+
+  /* Text */
+  --text-primary:          #e2e8f0;
+  --text-secondary:        #a0aec0;
+  --text-muted:            #718096;
+  --text-faint:            #4a5568;
+  --text-on-brand:         #ffffff;
+  --text-table-header:     #8a94a6;
+
+  /* Links */
+  --link-color:            #60a5fa;
+  --link-hover:            #93bbfd;
+
+  /* Borders */
+  --border-primary:        #2d3748;
+  --border-medium:         #252a36;
+  --border-light:          #1e2230;
+  --border-input:          #3a4050;
+  --border-input-light:    #2d3748;
+  --border-separator:      #3a4050;
+
+  /* Brand / Action */
+  --brand-primary:         #60a5fa;
+  --brand-success:         #34d399;
+  --brand-danger:          #f87171;
+  --brand-warning:         #fbbf24;
+  --brand-purple:          #a78bfa;
+
+  /* Semantic Surfaces */
+  --bg-error:              #2d1618;
+  --text-error:            #fca5a5;
+  --bg-error-alt:          #2d1618;
+  --bg-danger-subtle:      #2d1618;
+  --bg-badge-neutral:      #2d3748;
+  --text-badge-neutral:    #a0aec0;
+
+  /* Role Badges */
+  --bg-badge-owner:        #14332a;
+  --text-badge-owner:      #6ee7b7;
+  --bg-badge-admin:        #1e2a4a;
+  --bg-badge-member:       #2d3748;
+  --bg-badge-role:         #2d3748;
+  --text-badge-role:       #94a3b8;
+
+  /* Messages */
+  --bg-msg-received:       #22252f;
+  --bg-msg-sent:           #2563eb;
+
+  /* Shadows — tiered system */
+  --shadow-card:           0 2px 8px rgba(0, 0, 0, 0.30);
+  --shadow-elevated:       0 4px 16px rgba(0, 0, 0, 0.40);
+  --shadow-main:           0 4px 24px rgba(0, 0, 0, 0.50);
+  --shadow-banner:         0 3px 16px rgba(0, 0, 0, 0.45);
+  --shadow-internal:       0 2px 10px rgba(0, 0, 0, 0.35);
+  --shadow-modal:          0 8px 36px rgba(0, 0, 0, 0.60);
+  --shadow-icon:           0 1px 5px rgba(0, 0, 0, 0.50);
+
+  --help-border:           #3a4050;
+
+  /* Table surfaces */
+  --bg-table:              #161922;
+  --bg-table-header:       #1e2230;
+  --bg-table-row-alt:      #1a1d27;
+  --bg-table-hover:        #252a36;
+
+  /* Expanded rows */
+  --bg-expand:             #141720;
+  --bg-expand-alt:         #10131a;
+}
+
+/* ─── Shadow Utility Classes ─── */
+
+.shadow-main     { box-shadow: var(--shadow-main); }
+.shadow-banner   { box-shadow: var(--shadow-banner); }
+.shadow-internal { box-shadow: var(--shadow-internal); }
+.shadow-modal    { box-shadow: var(--shadow-modal); }
+.shadow-icon     { filter: drop-shadow(var(--shadow-icon)); }
+
+/* ─── Dark Mode Overrides ─── */
+
+[data-theme="dark"] h1,
+[data-theme="dark"] h2,
+[data-theme="dark"] h3,
+[data-theme="dark"] h4,
+[data-theme="dark"] h5,
+[data-theme="dark"] h6,
+[data-theme="dark"] strong,
+[data-theme="dark"] b {
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] a {
+  color: var(--link-color);
+}
+
+[data-theme="dark"] input,
+[data-theme="dark"] select,
+[data-theme="dark"] textarea {
+  background-color: var(--bg-input);
+  color: var(--text-primary);
+  border-color: var(--border-input-light);
+}
+
+[data-theme="dark"] input::placeholder {
+  color: var(--text-faint);
+}

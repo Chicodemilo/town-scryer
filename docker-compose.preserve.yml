@@ -1,0 +1,10 @@
+# Docker Compose override for data preservation mode
+# This file is used when --preserve-data flag is specified
+# It mounts the database volume but NOT the init scripts to preserve existing data
+
+services:
+  db:
+    volumes:
+      - mysql_data:/var/lib/mysql
+      # NOTE: No init scripts mounted - preserves existing data
+      # Init scripts only run on empty databases, so we skip them entirely

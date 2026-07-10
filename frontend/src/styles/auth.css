@@ -1,0 +1,206 @@
+/* =============================================================================
+   File:      frontend/src/styles/auth.css
+   Purpose:   Login, Register, CheckEmail, VerifyEmail, Invite, Terms pages.
+   Modified:  2026-04-22
+   ============================================================================= */
+
+/* ---- Centered Auth Card ---- */
+
+.auth-page {
+  min-height: calc(100vh - 80px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-page-public);
+}
+
+.auth-card {
+  background-color: var(--bg-surface);
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--border-primary);
+  width: 100%;
+  max-width: 400px;
+}
+
+.auth-card__title {
+  text-align: center;
+  margin-bottom: 30px;
+  color: var(--text-primary);
+}
+
+.auth-card__icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.auth-card__footer {
+  text-align: center;
+  margin-top: 20px;
+  color: var(--text-muted);
+}
+
+/* ---- Form Fields ---- */
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group--last {
+  margin-bottom: 25px;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.form-input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--border-input);
+  border-radius: 4px;
+  font-size: var(--font-size-base);
+  box-sizing: border-box;
+}
+
+.password-input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.password-input-wrapper .form-input {
+  padding-right: 42px;
+}
+
+.password-input-toggle {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-muted);
+  padding: 2px;
+  display: flex;
+  align-items: center;
+}
+
+.password-input-toggle:hover {
+  color: var(--text-primary);
+}
+
+.form-input--code {
+  text-align: center;
+  letter-spacing: 4px;
+  font-weight: 600;
+}
+
+.form-error {
+  background-color: var(--bg-error);
+  color: var(--text-error);
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  font-size: var(--font-size-sm);
+}
+
+.form-field-error {
+  color: var(--brand-danger);
+  font-size: var(--font-size-xs);
+  margin-top: 4px;
+}
+
+/* ---- Auth Buttons ---- */
+
+.btn-submit {
+  width: 100%;
+  background-color: var(--brand-primary);
+  color: #fff;
+  border: none;
+  padding: 14px;
+  border-radius: 4px;
+  font-size: var(--font-size-base);
+  font-weight: 500;
+  transition: filter 0.15s ease;
+}
+
+.btn-submit:hover {
+  filter: brightness(1.15);
+}
+
+.btn-submit--success {
+  background-color: var(--brand-success);
+}
+
+.btn-submit--inline {
+  width: auto;
+  display: inline-block;
+  padding: 12px 32px;
+}
+
+/* ---- Status Messages ---- */
+
+.status-success {
+  color: var(--brand-success);
+  font-weight: 500;
+}
+
+.status-error {
+  color: var(--brand-danger);
+}
+
+/* ---- Terms Page ---- */
+
+.terms-page {
+  padding: 20px;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.terms-page__title {
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.terms-page__subtitle {
+  color: var(--text-muted);
+  margin-bottom: 24px;
+  font-size: var(--font-size-sm);
+}
+
+.terms-page__content {
+  padding: 24px;
+  background-color: var(--bg-surface-alt);
+  border-radius: 4px;
+  border: 1px solid var(--border-primary);
+  max-height: 400px;
+  overflow-y: auto;
+  margin-bottom: 24px;
+  white-space: pre-wrap;
+  line-height: var(--line-height);
+}
+
+/* ---- Invite Page ---- */
+
+.invite-page {
+  padding: 20px;
+  max-width: 400px;
+  margin: 60px auto;
+}
+
+.invite-page__title {
+  text-align: center;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.invite-page__subtitle {
+  text-align: center;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+}
